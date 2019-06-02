@@ -97,12 +97,12 @@
       <Button fx:id="a4b" layoutX="1778.0" layoutY="159.0" mnemonicParsing="false" onAction="#onClickMethod" prefHeight="139.0" prefWidth="28.0" style="-fx-background-color: #000000;" />
       <Button fx:id="h4b" layoutX="1814.0" layoutY="159.0" mnemonicParsing="false" onAction="#onClickMethod" prefHeight="139.0" prefWidth="28.0" style="-fx-background-color: #000000;" />
       <Button fx:id="c5" layoutX="1864.0" layoutY="159.0" mnemonicParsing="false" onAction="#onClickMethod" prefHeight="227.0" prefWidth="36.0" />
-      <Button fx:id="stopRecording" layoutX="1224.0" layoutY="93.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="263.0" text=" Stop Recording" textAlignment="CENTER" onAction="#stopRecording">
+      <Button fx:id="stopRecording" layoutX="1224.0" layoutY="93.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="263.0" text=" Stop Recording" textAlignment="CENTER" onAction="#stop">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="startRecording" layoutX="1224.0" layoutY="38.0" mnemonicParsing="false" onAction="#startRecording" prefHeight="39.0" prefWidth="263.0" text=" Start Recording" textAlignment="CENTER">
+      <Button fx:id="startRecording" layoutX="1224.0" layoutY="38.0" mnemonicParsing="false" onAction="#start" prefHeight="39.0" prefWidth="263.0" text=" Start Recording" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
@@ -112,7 +112,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <ComboBox fx:id="trackList" layoutX="1639.0" layoutY="440.0" prefHeight="39.0" prefWidth="263.0" onAction="#trackList"/>
+      <ComboBox fx:id="trackList" layoutX="1639.0" layoutY="440.0" prefHeight="39.0" prefWidth="263.0" onAction="#tracks"/>
       <TextField fx:id="nameField" layoutX="1517.0" layoutY="93.0" prefHeight="39.0" prefWidth="263.0" promptText="Track name">
          <font>
             <Font size="18.0" />

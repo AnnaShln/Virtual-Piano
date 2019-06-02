@@ -20,10 +20,7 @@ public class Controller {
     @FXML
     private TextField nameField;
 
-    @FXML
-    void initialize() {
-
-    }
+    private Player player = new Player();
 
     private void play(int i) throws InvalidMidiDataException, MidiUnavailableException {
         Sequencer player = MidiSystem.getSequencer();
@@ -61,37 +58,61 @@ public class Controller {
 
     public void onClickMethod(ActionEvent actionEvent) throws InvalidMidiDataException, MidiUnavailableException {
         Button btn = (Button) actionEvent.getSource();
-        if (track.isEmpty()) playButton(btn.getId());
+        if (player.melody.isEmpty()) playButton(btn.getId());
         else {
             playButton(btn.getId());
-            track.add(btn.getId());
+            player.saveKey(btn);
         }
     }
 
-    private List<String> track = new ArrayList<>();
-    private String fileName;
-
-    public void startRecording() {
-        track.add("A2");
+    public void start() {
+        player.startRecording();
     }
 
     public void saveName() {
-        fileName = nameField.getText();
+        player.saveMelodyName();
     }
 
-    public void stopRecording() throws IOException {
-        FileWriter file = new FileWriter(fileName);
-        for (String pianoKey: track){
-            file.write(pianoKey+" ");
+    public void stop() throws IOException {
+        player.stopRecording();
+    }
+
+    public void tracks() throws MidiUnavailableException, InvalidMidiDataException, IOException {
+        player.melodyList(trackList);
+    }
+
+    class Player {
+        List<String> melody = new ArrayList<>();
+        String melodyName;
+
+        void saveKey(Button button) {
+            melody.add(button.getId());
         }
-        file.close();
-        trackList.getItems().add(fileName);
-        track.clear();
-    }
 
-    public void trackList() throws InvalidMidiDataException, MidiUnavailableException, IOException {
-        String trackName = trackList.getValue().toString();
-        String content = Files.lines(Paths.get(trackName)).reduce("", String::concat);
-        for (String parts : content.split(" ")) playButton(parts);
+        void startRecording(){
+            melody.add("start");
+        }
+
+        void saveMelodyName() {
+            melodyName = nameField.getText();
+        }
+
+        void stopRecording() throws IOException {
+            FileWriter file = new FileWriter(melodyName);
+            melody.remove(0);
+            for (String pianoKey: melody){
+                file.write(pianoKey+" ");
+            }
+            file.close();
+            trackList.getItems().add(melodyName);
+            melody.clear();
+        }
+
+        void melodyList(ComboBox comboBox) throws MidiUnavailableException, InvalidMidiDataException, IOException {
+            String trackName = comboBox.getValue().toString();
+            String content = Files.lines(Paths.get(trackName)).reduce("", String::concat);
+            for (String parts : content.split(" ")) playButton(parts);
+        }
+
     }
 }
