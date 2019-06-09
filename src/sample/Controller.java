@@ -4,30 +4,31 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javax.sound.midi.*;
+import static javafx.scene.paint.Color.GREEN;
+import static javafx.scene.paint.Color.RED;
 
 public class Controller {
 
-    @FXML
-    private ComboBox trackList;
+    public Circle light;
+    public Button stopRecording;
 
     @FXML
-    private TextField nameField;
+    private ComboBox<String> trackList;
 
     private Player player = new Player();
 
     private void play(int i) throws InvalidMidiDataException, MidiUnavailableException {
         Sequencer player = MidiSystem.getSequencer();
         player.open();
-
         Sequence seq = new Sequence(Sequence.PPQ, 4);
-
         Track track = seq.createTrack();
 
         ShortMessage a = new ShortMessage();
@@ -41,7 +42,6 @@ public class Controller {
         track.add(noteOff);
 
         player.setSequence(seq);
-
         player.start();
 
     }
@@ -58,23 +58,20 @@ public class Controller {
 
     public void onClickMethod(ActionEvent actionEvent) throws InvalidMidiDataException, MidiUnavailableException {
         Button btn = (Button) actionEvent.getSource();
-        if (player.melody.isEmpty()) playButton(btn.getId());
-        else {
-            playButton(btn.getId());
-            player.saveKey(btn);
-        }
+        playButton(btn.getId());
+        if (player.go) player.saveKey(btn);
     }
 
     public void start() {
-        player.startRecording();
-    }
-
-    public void saveName() {
-        player.saveMelodyName();
+        player.startRecording(stopRecording);
+        light.setFill(GREEN);
+        light.setStroke(GREEN);
     }
 
     public void stop() throws IOException {
-        player.stopRecording();
+        player.stopRecording(stopRecording);
+        light.setFill(RED);
+        light.setStroke(RED);
     }
 
     public void tracks() throws MidiUnavailableException, InvalidMidiDataException, IOException {
@@ -82,37 +79,38 @@ public class Controller {
     }
 
     class Player {
-        List<String> melody = new ArrayList<>();
-        String melodyName;
+        private List<String> melody = new ArrayList<>();
+        private boolean go;
 
         void saveKey(Button button) {
             melody.add(button.getId());
         }
 
-        void startRecording(){
-            melody.add("start");
+        void startRecording(Button button){
+            go = true;
+            button.setDisable(false);
         }
 
-        void saveMelodyName() {
-            melodyName = nameField.getText();
-        }
-
-        void stopRecording() throws IOException {
-            FileWriter file = new FileWriter(melodyName);
-            melody.remove(0);
+        void stopRecording(Button button) throws IOException {
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showSaveDialog(null);
+            FileWriter filewriter = new FileWriter(selectedFile);
             for (String pianoKey: melody){
-                file.write(pianoKey+" ");
+                filewriter.write(pianoKey+" ");
             }
-            file.close();
-            trackList.getItems().add(melodyName);
+            filewriter.close();
             melody.clear();
+            button.setDisable(true);
         }
 
-        void melodyList(ComboBox comboBox) throws MidiUnavailableException, InvalidMidiDataException, IOException {
+        void melodyList(ComboBox comboBox) throws InvalidMidiDataException, MidiUnavailableException, IOException {
+            File dir = new File("tracks");
+            for (File f: Objects.requireNonNull(dir.listFiles())) {
+                comboBox.getItems().add(f.getName());
+            }
             String trackName = comboBox.getValue().toString();
             String content = Files.lines(Paths.get(trackName)).reduce("", String::concat);
             for (String parts : content.split(" ")) playButton(parts);
         }
-
     }
 }

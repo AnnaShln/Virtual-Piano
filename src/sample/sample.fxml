@@ -4,8 +4,8 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -111,32 +111,23 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></Button>
-      <Button fx:id="stopRecording" layoutX="1227.0" layoutY="124.0" mnemonicParsing="false" onAction="#stop" prefHeight="39.0" prefWidth="361.0" style="-fx-background-color: #200a04;" text=" Stop Recording" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="stopRecording" disable="true" layoutX="1228.0" layoutY="92.0" mnemonicParsing="false" onAction="#stop" prefHeight="39.0" prefWidth="361.0" style="-fx-background-color: #200a04;" text=" Stop Recording" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Aharoni Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="startRecording" layoutX="1227.0" layoutY="17.0" mnemonicParsing="false" onAction="#start" prefHeight="39.0" prefWidth="361.0" style="-fx-background-color: #200a04;" text=" Start Recording" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="startRecording" layoutX="1228.0" layoutY="36.0" mnemonicParsing="false" onAction="#start" prefHeight="39.0" prefWidth="361.0" style="-fx-background-color: #200a04;" text=" Start Recording" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Aharoni Bold" size="18.0" />
          </font>
       </Button>
-      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="1693.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Tracks" textAlignment="CENTER" wrappingWidth="122.01708984375">
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="1693.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Tracks" textAlignment="CENTER" wrappingWidth="122.01708984375">
          <font>
             <Font name="Aharoni Bold" size="18.0" />
          </font>
       </Text>
-      <ComboBox fx:id="trackList" layoutX="1623.0" layoutY="72.0" onAction="#tracks" prefHeight="39.0" prefWidth="263.0" />
-      <TextField fx:id="nameField" layoutX="1227.0" layoutY="72.0" prefHeight="39.0" prefWidth="263.0" promptText="Track name">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <Button fx:id="saveName" layoutX="1486.0" layoutY="72.0" mnemonicParsing="false" onAction="#saveName" prefHeight="39.0" prefWidth="104.0" style="-fx-background-color: #200a04;" text="Save" textFill="WHITE">
-         <font>
-            <Font name="Aharoni Bold" size="18.0" />
-         </font>
-      </Button>
+      <ComboBox fx:id="trackList" layoutX="1623.0" layoutY="92.0" onAction="#tracks" prefHeight="39.0" prefWidth="263.0" />
       <Accordion />
+      <Circle fx:id="light" fill="RED" layoutX="1182.0" layoutY="56.0" radius="18.0" stroke="RED" strokeType="INSIDE" />
    </children>
 </Pane>
