@@ -6,10 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.sound.midi.*;
-import java.io.IOException;
-import java.util.*;
-
 public class Main extends Application {
 
     @Override

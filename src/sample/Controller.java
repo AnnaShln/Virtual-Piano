@@ -1,16 +1,16 @@
 package sample;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javax.sound.midi.*;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+import static java.io.File.separatorChar;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.RED;
 
@@ -18,11 +18,13 @@ public class Controller {
 
     public Circle light;
     public Button stopRecording;
+    public Button previousTracks;
 
     @FXML
     private ComboBox<String> trackList;
 
     private Player player = new Player();
+    private File dir = new File("tracks");
 
     private void play(int i) throws InvalidMidiDataException, MidiUnavailableException {
         Sequencer player = MidiSystem.getSequencer();
@@ -58,39 +60,47 @@ public class Controller {
     public void onClickMethod(ActionEvent actionEvent) throws InvalidMidiDataException, MidiUnavailableException {
         Button btn = (Button) actionEvent.getSource();
         playButton(btn.getId());
-        if (player.go) player.saveKey(btn);
+        if (player.go) player.saveKey(btn.getId());
     }
 
     public void start() {
-        player.startRecording(stopRecording);
+        player.startRecording();
         light.setFill(GREEN);
         light.setStroke(GREEN);
+        stopRecording.setDisable(false);
     }
 
     public void stop() throws IOException {
-        player.stopRecording(stopRecording);
+        trackList.getItems().add(player.stopRecording());
         light.setFill(RED);
         light.setStroke(RED);
+        stopRecording.setDisable(true);
     }
 
     public void tracks() throws MidiUnavailableException, InvalidMidiDataException, IOException {
-        player.melodyList(trackList);
+        player.melodyList(trackList.getValue());
+    }
+
+    public void getPreviousTracks() {
+        for (String name: player.getTracks(dir)) {
+            trackList.getItems().add(name);
+        }
+        previousTracks.setDisable(true);
     }
 
     class Player {
-        private List<String> melody = new ArrayList<>();
-        private boolean go;
+        List<String> melody = new ArrayList<>();
+        boolean go;
 
-        void saveKey(Button button) {
-            melody.add(button.getId());
+        void saveKey(String name) {
+            melody.add(name);
         }
 
-        void startRecording(Button button){
+        void startRecording(){
             go = true;
-            button.setDisable(false);
         }
 
-        void stopRecording(Button button) throws IOException {
+        String stopRecording() throws IOException {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showSaveDialog(null);
             FileWriter filewriter = new FileWriter(selectedFile);
@@ -99,17 +109,21 @@ public class Controller {
             }
             filewriter.close();
             melody.clear();
-            button.setDisable(true);
+            return selectedFile.getName();
         }
 
-        void melodyList(ComboBox comboBox) throws InvalidMidiDataException, MidiUnavailableException, IOException {
-            File dir = new File("tracks");
-            for (File f: Objects.requireNonNull(dir.listFiles())) {
-                comboBox.getItems().add(f.getName());
-            }
-            String trackName = comboBox.getValue().toString();
-            String content = Files.lines(Paths.get(trackName)).reduce("", String::concat);
+        void melodyList(String trackName) throws InvalidMidiDataException, MidiUnavailableException, IOException {
+            String content = Files.lines(Paths.get("tracks"+separatorChar+trackName))
+                    .reduce("", String::concat);
             for (String parts : content.split(" ")) playButton(parts);
+        }
+
+        List<String> getTracks (File file) {
+            List<String> list = new ArrayList<>();
+            for (File f: Objects.requireNonNull(file.listFiles())) {
+                list.add(f.getName());
+            }
+            return list;
         }
     }
 }

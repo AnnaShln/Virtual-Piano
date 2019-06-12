@@ -111,23 +111,28 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></Button>
-      <Button fx:id="stopRecording" disable="true" layoutX="1228.0" layoutY="92.0" mnemonicParsing="false" onAction="#stop" prefHeight="39.0" prefWidth="361.0" style="-fx-background-color: #200a04;" text=" Stop Recording" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="stopRecording" disable="true" layoutX="1232.0" layoutY="122.0" mnemonicParsing="false" onAction="#stop" prefHeight="39.0" prefWidth="273.0" style="-fx-background-color: #200a04;" text=" Stop Recording" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Aharoni Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="startRecording" layoutX="1228.0" layoutY="36.0" mnemonicParsing="false" onAction="#start" prefHeight="39.0" prefWidth="361.0" style="-fx-background-color: #200a04;" text=" Start Recording" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="startRecording" layoutX="1232.0" layoutY="60.0" mnemonicParsing="false" onAction="#start" prefHeight="39.0" prefWidth="273.0" style="-fx-background-color: #200a04;" text=" Start Recording" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Aharoni Bold" size="18.0" />
          </font>
       </Button>
-      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="1693.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Tracks" textAlignment="CENTER" wrappingWidth="122.01708984375">
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="1599.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Tracks" textAlignment="CENTER" wrappingWidth="122.01708984375">
          <font>
             <Font name="Aharoni Bold" size="18.0" />
          </font>
       </Text>
-      <ComboBox fx:id="trackList" layoutX="1623.0" layoutY="92.0" onAction="#tracks" prefHeight="39.0" prefWidth="263.0" />
+      <ComboBox fx:id="trackList" layoutX="1529.0" layoutY="59.0" onAction="#tracks" prefHeight="39.0" prefWidth="263.0" />
       <Accordion />
-      <Circle fx:id="light" fill="RED" layoutX="1182.0" layoutY="56.0" radius="18.0" stroke="RED" strokeType="INSIDE" />
+      <Circle fx:id="light" fill="RED" layoutX="1203.0" layoutY="79.0" radius="18.0" stroke="RED" strokeType="INSIDE" />
+      <Button fx:id="previousTracks" layoutX="1524.0" layoutY="122.0" mnemonicParsing="false" onAction="#getPreviousTracks" prefHeight="39.0" prefWidth="273.0" style="-fx-background-color: #200a04;" text="Get previous tracks" textFill="WHITE">
+         <font>
+            <Font name="Aharoni Bold" size="18.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
